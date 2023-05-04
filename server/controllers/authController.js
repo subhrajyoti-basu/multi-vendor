@@ -21,20 +21,22 @@ export const loginController = asyncErr(async (req, res, next) => {
     );
 
   // check user
-  const user = await userModel.findOne({ email });
-  if (!user)
+  const existingUser = await userModel.findOne({ email });
+  if (!existingUser)
     throw new ErrorHandler(
       "emailId or passowrd is invalid",
       statusCode.BADREQUEST
     );
   // if password don't match
-  if (!(await comparePassword(password, user.password)))
+  if (!(await comparePassword(password, existingUser.password)))
     throw new ErrorHandler("Passowrd is invalid", statusCode.NOTFOUND);
 
   // if passed every check generate accessToken
-  const accessToken = await generateAccessToken({ id: user._id });
-  // remove password field
-  user.password = undefined;
+  const accessToken = await generateAccessToken({ id: existingUser._id });
+
+  // remove password field & _id
+  const user = { ...existingUser._doc, password: undefined, _id: undefined };
+
   // send the access token to the client
   res.status(statusCode.OK).json({
     success: true,
