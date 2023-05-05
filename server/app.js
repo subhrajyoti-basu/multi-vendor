@@ -4,6 +4,7 @@ import errMiddleware from "./middleware/error.js";
 import authRouter from "./routes/authRoute.js";
 import productRouter from "./routes/productRoute.js";
 import vendorRouter from "./routes/vendorRoute.js";
+import orderRouter from "./routes/orderRoute.js";
 
 // initialize express
 const app = express();
@@ -16,6 +17,7 @@ app.use(morgan("dev"));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/vendor", vendorRouter);
+app.use("/api/v1/order", orderRouter);
 
 // error middleware
 app.use(errMiddleware);

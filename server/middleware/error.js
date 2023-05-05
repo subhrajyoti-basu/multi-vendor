@@ -11,6 +11,11 @@ const errMiddleware = (err, req, res, next) => {
     err.statusCode = statusCode.UNAUTHORIZED;
   }
 
+  if (err.message.startsWith("Cast to ObjectId failed for value")) {
+    err.message = "Id length is invalid";
+    err.statusCode = statusCode.BADREQUEST;
+  }
+  console.log(err);
   // send err response via API
   return res.status(err.statusCode).json({
     success: false,

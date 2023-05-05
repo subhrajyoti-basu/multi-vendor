@@ -19,6 +19,9 @@ const productSchema = new mongoose.Schema(
       required: true,
       type: mongoose.Types.ObjectId,
     },
+    image: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
